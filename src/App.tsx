@@ -4,7 +4,7 @@ import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 import { authProvider, dataProvider, liveProvider } from "./providers";
-import { Home, ForgotPassword, Login, Register } from "./pages"
+import { Home, ForgotPassword, Login, Register, CompanyList } from "./pages";
 import routerBindings, {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -14,6 +14,7 @@ import { App as AntdApp } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout";
 import { resources } from "./config/resources";
+import Create from "./pages/company/create";
 
 function App() {
   return (
@@ -39,22 +40,25 @@ function App() {
             <Routes>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} 
-            />
-            <Route 
-              element={
-              <Authenticated 
-              key="authenticated-layout"
-              fallback={<CatchAllNavigate to="/login"/>}
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route
+                element={
+                  <Authenticated
+                    key="authenticated-layout"
+                    fallback={<CatchAllNavigate to="/login" />}
+                  >
+                    <Layout>
+                      <Outlet />
+                    </Layout>
+                  </Authenticated>
+                }
               >
-                  <Layout>
-                  <Outlet /> 
-                </Layout>
-              </Authenticated>
-              }>
                 <Route index element={<Home />} />
-
-            </Route>
+                <Route path="/companies">
+                  <Route index element={<CompanyList />} />
+                  <Route path="new" element={<Create />} />{" "}
+                </Route>
+              </Route>
             </Routes>
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />
