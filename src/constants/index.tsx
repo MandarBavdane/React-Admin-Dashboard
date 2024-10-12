@@ -27,6 +27,7 @@ import {
   Contact,
   Industry,
 } from "@/graphql/schema.types";
+import React from "react";
 
 export type TotalCountType = "companies" | "contacts" | "deals";
 
